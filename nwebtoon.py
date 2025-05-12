@@ -27,7 +27,7 @@ try:
     # Small additional sleep might help for images to load, though not strictly necessary for text/attributes
     time.sleep(2)
 except Exception as e:
-    print(f"Error waiting for page to load: {e}")
+    print(f"오류 발생: {e}")
     driver.quit()
     exit()
 
@@ -37,32 +37,32 @@ webtoon_items = driver.find_elements(By.CSS_SELECTOR, 'ul.list_toon li')
 
 # 5. Extract data
 webtoon_data = []
-print(f"Found {len(webtoon_items)} webtoons.") # Debugging print
+print(f"총 {len(webtoon_items)}개의 웹툰 발견.") # Debugging print
 
 for item in webtoon_items:
     try:
         # Selectors based on inspection
-        thumbnail_img = item.find_element(By.CSS_SELECTOR, 'div.const_area a.img img')
+        thumbnail_img = item.find_element(By.CSS_SELECTOR, '#container > div.component_wrap.type2 > div.WeekdayMainView__daily_all_wrap--UvRFc > div.WeekdayMainView__daily_all_item--DnTAH.WeekdayMainView__is_active--NSACG > ul > li:nth-child(1) > a > div')
         thumbnail_url = thumbnail_img.get_attribute('src') if thumbnail_img else 'N/A'
 
-        title_elem = item.find_element(By.CSS_SELECTOR, 'div.info a.title')
+        title_elem = item.find_element(By.CSS_SELECTOR, '#container > div.component_wrap.type2 > div.WeekdayMainView__daily_all_wrap--UvRFc > div.WeekdayMainView__daily_all_item--DnTAH.WeekdayMainView__is_active--NSACG > ul > li:nth-child(1) > div > a > span > span')
         title = title_elem.text if title_elem else 'N/A'
 
-        author_elem = item.find_element(By.CSS_SELECTOR, 'div.info span.author')
+        author_elem = item.find_element(By.CSS_SELECTOR, '#content > div:nth-child(1) > ul > li:nth-child(1) > div > div.ContentAuthor__author_wrap--fV7Lo > a')
         author = author_elem.text if author_elem else 'N/A'
 
-        rating_elem = item.find_element(By.CSS_SELECTOR, 'div.info span.score')
+        rating_elem = item.find_element(By.CSS_SELECTOR, '#content > div:nth-child(1) > ul > li:nth-child(1) > div > div.rating_area > span > span')
         rating = rating_elem.text if rating_elem else 'N/A'
 
         webtoon_data.append({
-            'thumbnail_url': thumbnail_url,
-            'title': title,
-            'author': author,
-            'rating': rating
+            '썸네일 이미지 주소': thumbnail_url,
+            '타이틀': title,
+            '작가명': author,
+            '평점': rating
         })
     except Exception as e:
         # Print error for specific item to help debugging
-        print(f"Error processing an item: {e}")
+        print(f"오류 발생: {e}")
         # You might want to skip this item or log it differently
         continue # Skip to the next item if one fails
 
@@ -79,7 +79,7 @@ for data in webtoon_data:
     print(f"타이틀: {data['title']}")
     print(f"작가명: {data['author']}")
     print(f"평점: {data['rating']}")
-    print(f"썸네일 주소: {data['thumbnail_url']}")
+    print(f"썸네일 이미지 주소: {data['thumbnail_url']}")
     print("-" * 20)
 
 print("데이터 수집 완료.")
