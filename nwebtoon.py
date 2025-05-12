@@ -76,10 +76,10 @@ driver.quit()
 # Print nicely
 print("\n--- 네이버 월요웹툰 데이터 ---")
 for data in webtoon_data:
+    print(f"썸네일 이미지 주소: {data['thumbnail_url']}")
     print(f"타이틀: {data['title']}")
     print(f"작가명: {data['author']}")
     print(f"평점: {data['rating']}")
-    print(f"썸네일 이미지 주소: {data['thumbnail_url']}")
     print("-" * 20)
 
 print("데이터 수집 완료.")
